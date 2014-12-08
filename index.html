@@ -7,16 +7,16 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- HTML -->
 
+  <!-- HTML -->
   <section id="shopping-list">
     <header id="shopping-list__header">
-      <h1>Todos</h1>
-      <input id="new-item" placeholder="What do we need?" autofocus>
+      <h1>Shopping List</h1>
+      <input id="new-item" placeholder="What do we need?"><div id="add">+ Add</div>
       <div>
         <a href="#/">Show all</a>
-        <a href="#/pending">Show pending</a>
-        <a href="#/completed">Show completed</a>
+        <a href="#/tobuy">Show To Buy</a>
+        <a href="#/bought">Show Bought</a>
       </div>
     </header>
     <section id="main">
@@ -30,7 +30,7 @@
       <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %> >
       <label><%- title %></label>
       <input class="edit" value="<%- title %>">
-      <button class="destroy">remove</button>
+      <div class="destroy">X</div>
     </div>
   </script>
 

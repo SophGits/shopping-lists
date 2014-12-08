@@ -1,9 +1,67 @@
-#todo-list input.edit {
-  display: none; /* Hides input box*/
+
+body{
+  font-family: Helvetica, sans-serif;
+  width: 410px;
+  margin: 0 auto;
+  display: block;
+  padding-top: 1em;
 }
-#todo-list .editing label {
-  display: none;  Hides label text when .editing
+
+/* Header *********************************/
+#new-item{
+  margin: 0 1em 2em 0;
+  border-radius: 5px;
+  line-height: 22px;
+  font-size: 14px;
+  padding: 3px;
+  outline: none;
 }
-#todo-list .editing input.edit {
-  display: inline; /* Shows input text box when .editing*/
+#shopping-list__header a,
+#add {
+  background: lightgray;
+  border-radius: 2px;
+  padding: 8px;
+  display: inline-block;
+  text-decoration: none;
+  margin-right: 2px;
+}
+#add:hover{
+  cursor: pointer;
+}
+
+/* List ***********************************/
+.toggle:hover{
+  cursor: pointer;
+}
+#shopping-list__body input.edit {
+  display: none;
+}
+#shopping-list__body .editing label {
+  display: none;
+}
+#shopping-list__body .editing input.edit {
+  display: inline;
+  font-size: 16px;
+}
+#shopping-list__body{
+  list-style-type: none;
+}
+#shopping-list__body li input,
+#shopping-list__body li label{
+  line-height: 30px;
+}
+.destroy{
+  color: red;
+  border-radius: 50px;
+  border: 1px solid red;
+  display: inline-block;
+  padding: 1px 4px;
+  font-size: 10px;
+  position: relative;
+  top: -1px;
+}
+.destroy:hover{
+  font-size: 14px;
+  font-weight: bolder;
+  cursor: pointer;
 }

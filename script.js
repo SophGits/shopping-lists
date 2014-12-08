@@ -81,15 +81,19 @@
         app.shoppingList.fetch();
       },
       events: {
+        'click #add'     : 'createItemOnClick',
         'keypress #new-item': 'createItemOnEnter'
       },
       createItemOnEnter: function(e){
-                console.log("heyhey");
-        if ( e.which !== 13 || !this.input.val().trim() ) { // ENTER_KEY = 13
+        if ( e.which !== 13 || !this.input.val().trim()) { // 13 == return
           return;
         }
         app.shoppingList.create(this.newAttributes());
         this.input.val('');
+      },
+      createItemOnClick: function(){
+        app.shoppingList.create(this.newAttributes());
+        $('#new-item').val('');
       },
       addOne: function(item){
         var view = new app.ItemView({model: item});
@@ -98,10 +102,10 @@
       addAll: function(){
         this.$('#shopping-list__body').html('');
         switch(window.filter){
-          case 'pending':
+          case 'tobuy':
             _.each(app.shoppingList.remaining(), this.addOne);
             break;
-          case 'completed':
+          case 'bought':
             _.each(app.shoppingList.completed(), this.addOne);
             break;
           default:
