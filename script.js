@@ -13,6 +13,10 @@ app.Item = Backbone.Model.extend({
 
 // Whole list model
 app.ShoppingList = Backbone.Model.extend({
+  defaults: {
+    title: "Shopping List"
+  },
+  urlRoot: '/lists',
   initialize: function(){
     this.set('items', new app.Items());
   }
@@ -20,17 +24,19 @@ app.ShoppingList = Backbone.Model.extend({
 
 // Collections
 app.Items = Backbone.Collection.extend({
-      model: app.Item,
-      localStorage: new Store("shoppinglist"),
-      completed: function(){
-        return this.filter(function(item){
-          return item.get('completed');
-        });
-      },
-      remaining: function(){
-        return this.without.apply(this, this.completed());
-      }
+  url: function(){
+    return app.shoppingList.url() + '/items'
+  },
+  model: app.Item,
+  completed: function(){
+    return this.filter(function(item){
+      return item.get('completed');
     });
+  },
+  remaining: function(){
+    return this.without.apply(this, this.completed());
+  }
+});
 
 // Views
 
@@ -85,7 +91,6 @@ app.ItemsView = Backbone.View.extend({
     this.input = this.$('#new-item');
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
-    this.collection.fetch();
   },
   events: {
     'click #add'     : 'createItemOnClick',
@@ -130,10 +135,15 @@ app.ItemsView = Backbone.View.extend({
 
 // NAME PLUS ITEMS ___________________________________________________
 app.ShoppingListView = Backbone.View.extend({
+  el: '#shopping-list',
+  render: function(){
+    this.$el.html('<h1>' + this.model.get('title') +'</h1>')
+  },
   initialize: function(){
     this.itemsView = new app.ItemsView({
       collection: this.model.get('items')
-    })
+    });
+    this.render()
   }
 })
 
