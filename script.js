@@ -31,11 +31,10 @@ app.Items = Backbone.Collection.extend({
         return this.without.apply(this, this.completed());
       }
     });
-app.items = new app.Items();
-
 
 // Views
 
+// ONE ITEM _____________________________________________________
 app.ItemView = Backbone.View.extend({
   tagName: 'li',
   template: _.template($('#item-template').html()),
@@ -79,13 +78,14 @@ app.ItemView = Backbone.View.extend({
   }
 });
 
+// MANY ITEMS _____________________________________________________
 app.ItemsView = Backbone.View.extend({
   el: '#items-list',
   initialize: function () {
     this.input = this.$('#new-item');
-    app.items.on('add', this.addOne, this);
-    app.items.on('reset', this.addAll, this);
-    app.items.fetch();
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.fetch();
   },
   events: {
     'click #add'     : 'createItemOnClick',
@@ -95,11 +95,11 @@ app.ItemsView = Backbone.View.extend({
     if ( e.which !== 13 || !this.input.val().trim()) { // 13 == return
       return;
     }
-    app.items.create(this.newAttributes());
+    this.collection.create(this.newAttributes());
     this.input.val('');
   },
   createItemOnClick: function(){
-    app.items.create(this.newAttributes());
+    this.collection.create(this.newAttributes());
     $('#new-item').val('');
   },
   addOne: function(item){
@@ -110,13 +110,13 @@ app.ItemsView = Backbone.View.extend({
     this.$('#shopping-list__body').html('');
     switch(window.filter){
       case 'tobuy':
-        _.each(app.items.remaining(), this.addOne);
+        _.each(this.collection.remaining(), this.addOne);
         break;
       case 'bought':
-        _.each(app.items.completed(), this.addOne);
+        _.each(this.collection.completed(), this.addOne);
         break;
       default:
-        app.items.each(this.addOne, this);
+        this.collection.each(this.addOne, this);
         break;
     }
   },
@@ -128,6 +128,16 @@ app.ItemsView = Backbone.View.extend({
   }
 });
 
+// NAME PLUS ITEMS ___________________________________________________
+app.ShoppingListView = Backbone.View.extend({
+  initialize: function(){
+    this.itemsView = new app.ItemsView({
+      collection: this.model.get('items')
+    })
+  }
+})
+
+
 // routers
 app.Router = Backbone.Router.extend({
   routes: {
@@ -136,11 +146,14 @@ app.Router = Backbone.Router.extend({
   setFilter: function(params){
     // console.log('app.router.params = ' + params);
     window.filter = params.trim() || '';
-    app.items.trigger('reset');
+    app.shoppingList.get('items').trigger('reset');
   }
 });
 
 // Initializers
+app.shoppingList = new app.ShoppingList();
 app.router = new app.Router();
 Backbone.history.start();
-app.itemsView = new app.ItemsView();
+app.shoppingListView = new app.ShoppingListView({
+  model: app.shoppingList
+})
