@@ -65,3 +65,8 @@ body{
   font-weight: bolder;
   cursor: pointer;
 }
+
+h1, #save{
+  display: inline-block;
+  margin-right: 10px;
+}

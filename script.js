@@ -136,8 +136,16 @@ app.ItemsView = Backbone.View.extend({
 // NAME PLUS ITEMS ___________________________________________________
 app.ShoppingListView = Backbone.View.extend({
   el: '#shopping-list',
+  events: {
+    'click #save' : 'update'
+  },
   render: function(){
-    this.$el.html('<h1>' + this.model.get('title') +'</h1>')
+    this.$el.html('<h1 contenteditable="true" class="title">' + this.model.get('title') +'</h1><button id="save">Save</button>')
+  },
+  update: function(){
+    var title = this.$('.title').html();
+    this.model.set('title', title);
+    this.model.save();
   },
   initialize: function(){
     this.itemsView = new app.ItemsView({
