@@ -1,0 +1,13 @@
+{
+  "name": "shopping-list",
+  "dependencies": {
+    "express": "^4.10.6"
+  },
+  "scripts": {
+    "start": "node lib/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sophgits/shopping-list"
+  }
+}
