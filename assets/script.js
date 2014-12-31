@@ -16,6 +16,7 @@ app.ShoppingList = Backbone.Model.extend({
   defaults: {
     title: "Shopping List"
   },
+  idAttribute: '_id',
   urlRoot: '/lists',
   initialize: function(){
     this.set('items', new app.Items());

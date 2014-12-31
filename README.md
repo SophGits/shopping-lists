@@ -18,3 +18,7 @@ Ideally I would develop in a test-driven way using Jasmine.
 
 ##### Scope
 To improve on this I would add a quantity field and an optional, toogleable, notes textarea to accompany the listed items in case a user would want more detail (for example a specific type of ingredient or favoured brand) hidden from the overview.
+
+### About Node and Mongo
+
+##### npm start is now what you can do to start the node server, as it's specified in package.json

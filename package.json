@@ -1,7 +1,9 @@
 {
   "name": "shopping-list",
   "dependencies": {
-    "express": "^4.10.6"
+    "express"    : "^4.10.6",
+    "mongoose"   : "^3.8.21",
+    "body-parser": "^1.10.0"
   },
   "scripts": {
     "start": "node lib/server.js"
