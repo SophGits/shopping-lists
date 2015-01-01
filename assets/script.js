@@ -67,11 +67,16 @@ app.ItemView = Backbone.View.extend({
     this.input.focus();
   },
   close: function(){
+    if(!this.$el.hasClass("editing")){
+      return;
+    }
+
+    this.$el.removeClass('editing');
+
     var value = this.input.val().trim();
     if(value){
       this.model.save({title: value}, {patch: true});
     }
-    this.$el.removeClass('editing');
   },
   updateOnEnter: function(e){
     if(e.which == 13){
