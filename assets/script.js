@@ -6,6 +6,7 @@ app.Item = Backbone.Model.extend({
     title: '',
     completed: false
   },
+  idAttribute: '_id',
   toggle: function(){
     this.save({completed: !this.get('completed')});
   }
