@@ -145,8 +145,11 @@ app.ShoppingListView = Backbone.View.extend({
   },
   update: function(){
     var title = this.$('.title').html();
-    this.model.set('title', title);
-    this.model.save();
+    // this.model.set('title', title);
+    this.model.save(
+      { title: title },
+      { patch: true }
+    );
   },
   initialize: function(){
     this.itemsView = new app.ItemsView({
@@ -162,9 +165,9 @@ app.Router = Backbone.Router.extend({
   routes: {
     '*filter' : 'setFilter'
   },
-  setFilter: function(params){
+  setFilter: function(filter){
     // console.log('app.router.params = ' + params);
-    window.filter = params.trim() || '';
+    window.filter = filter || '';
     app.shoppingList.get('items').trigger('reset');
   }
 });
