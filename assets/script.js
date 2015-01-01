@@ -8,7 +8,7 @@ app.Item = Backbone.Model.extend({
   },
   idAttribute: '_id',
   toggle: function(){
-    this.save({completed: !this.get('completed')});
+    this.save({completed: !this.get('completed')}, {patch: true});
   }
 });
 
@@ -69,7 +69,7 @@ app.ItemView = Backbone.View.extend({
   close: function(){
     var value = this.input.val().trim();
     if(value){
-      this.model.save({title: value});
+      this.model.save({title: value}, {patch: true});
     }
     this.$el.removeClass('editing');
   },
