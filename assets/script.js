@@ -20,16 +20,26 @@ app.ShoppingList = Backbone.Model.extend({
   idAttribute: '_id',
   urlRoot: '/lists',
   initialize: function(){
-    this.set('items', new app.Items());
+    this.set('items', new app.Items([], this));
+  },
+  parse: function(res){
+    var items = res.items;
+    if(items){
+      res.items = new app.Items(items, this);
+    }
+    return res;
   }
 });
 
 // Collections
 app.Items = Backbone.Collection.extend({
   url: function(){
-    return app.shoppingList.url() + '/items'
+    return this.shoppingList.url() + '/items'
   },
   model: app.Item,
+  initialize: function(items, shoppingList){
+    this.shoppingList = shoppingList;
+  },
   completed: function(){
     return this.filter(function(item){
       return item.get('completed');
@@ -169,12 +179,23 @@ app.ShoppingListView = Backbone.View.extend({
 // routers
 app.Router = Backbone.Router.extend({
   routes: {
+    'lists/:id' : 'showlist',
     '*filter' : 'setFilter'
   },
   setFilter: function(filter){
-    // console.log('app.router.params = ' + params);
     window.filter = filter || '';
-    app.shoppingList.get('items').trigger('reset');
+    var list = new app.ShoppingList();
+    new app.ShoppingListView({model: list});
+    list.get('items').trigger('reset');
+  },
+  showlist: function(id){
+    var list = new app.ShoppingList({'_id': id});
+    list.fetch({
+      success: function(){
+        new app.ShoppingListView({model: list});
+        list.get('items').trigger('reset');
+      }
+    });
   }
 });
 
@@ -182,6 +203,3 @@ app.Router = Backbone.Router.extend({
 app.shoppingList = new app.ShoppingList();
 app.router = new app.Router();
 Backbone.history.start();
-app.shoppingListView = new app.ShoppingListView({
-  model: app.shoppingList
-})
